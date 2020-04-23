@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div>发送消息：</div>
+<input type="text" id="msgContent"/>
+<input type="button" value="发送" onclick="CHAT.chat()"/>
+
+<div>接受消息：</div>
+<div id="receiveMsg" style="background-color: gainsboro;"></div>
+
+<script type="application/javascript">
+
+    window.CHAT = {
+        socket: null,
+        init: function () {
+            if (window.WebSocket) {
+                CHAT.socket = new WebSocket("ws://192.168.0.100:8089/ws");
+
+                CHAT.socket.onmessage = function (e) {
+                    console.log(e.data);
+
+                    var receiveMsg = document.getElementById("receiveMsg");
+                    var html = receiveMsg.innerHTML;
+                    receiveMsg.innerHTML = html + "<br/>" + e.data;
+
+                }
+            } else {
+                alert("fail")
+            }
+        },
+        chat: function () {
+            var msg = document.getElementById("msgContent");
+
+            CHAT.socket.send(msg.value);
+        }
+    };
+
+    CHAT.init()
+
+</script>
+</body>
+</html>
