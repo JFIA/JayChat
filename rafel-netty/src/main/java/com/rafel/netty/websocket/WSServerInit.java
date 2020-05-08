@@ -32,7 +32,7 @@ public class WSServerInit extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
 
         // 自定义助手类，读取用户消息并且对用户的消息进行相应的处理，处理完毕发给相应的客户端
-        pipeline.addLast("ChartHandler", new chartHandler());
+        pipeline.addLast("ChartHandler", new ChatHandler());
 
     }
 }
